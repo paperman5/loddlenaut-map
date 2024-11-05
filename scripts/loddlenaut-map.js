@@ -15,37 +15,40 @@ let map = L.map('map', {
     fullscreenControl: true,
 	fullscreenControlOptions: {
 		position: 'topleft'
-	}
+	},
 });
 
-// Create the tile layers. Caves & surface are just normal tile layers,
-// but hollow is a combination of surface & different hollow tiles.
-// Use a layer group to combine these.
+// Create the tile layers. For HiDPI/Retina displays, use Leaflet's detectRetina option,
+// let the user zoom in 1 more level, and at that extra zoom level scale the tiles to fit.
 let surface = L.tileLayer('map/surface/{z}/{x}/{y}.webp', {
     continuousWorld: false,
     noWrap: true,  
     minZoom: 0,
-    maxZoom: zoomMax,
+    maxZoom: (window.devicePixelRatio > 1) ? zoomMax + 1 : zoomMax,
+    maxNativeZoom: (window.devicePixelRatio > 1) ? zoomMax - 1 : zoomMax,
     zIndex: 1,
+    detectRetina: true,
 });
 let hollow = L.tileLayer('map/hollow/{z}/{x}/{y}.webp', {
     continuousWorld: false,
     noWrap: true,  
     minZoom: 0,
-    maxZoom: zoomMax,
+    maxZoom: (window.devicePixelRatio > 1) ? zoomMax + 1 : zoomMax,
+    maxNativeZoom: (window.devicePixelRatio > 1) ? zoomMax - 1 : zoomMax,
     zIndex: 2,
+    detectRetina: true,
 });
 let cave = L.tileLayer('map/cave/{z}/{x}/{y}.webp', {
     continuousWorld: false,
     noWrap: true,  
     minZoom: 0,
-    maxZoom: zoomMax,
+    maxZoom: (window.devicePixelRatio > 1) ? zoomMax + 1 : zoomMax,
+    maxNativeZoom: (window.devicePixelRatio > 1) ? zoomMax - 1 : zoomMax,
+    detectRetina: true,
 });
-let hollowGroup = L.layerGroup([surface, hollow]);
 let baseMaps = {
     "Caves": cave,
     "Surface": surface,
-    "Interior & Underneath": hollowGroup
 };
 surface.addTo(map);
 const baseTree = {
@@ -59,10 +62,6 @@ const baseTree = {
             label: 'Surface',
             layer: surface,
         },
-        {
-            label: 'Interior/Underneath',
-            layer: hollowGroup,
-        },
     ],
 };
 
@@ -71,12 +70,12 @@ let layerControl = L.control.layers.tree(baseTree).addTo(map);
 
 fetch('data/marker_locations.json')
     .then(response => response.json())
-    .then(data => addAllMarkersToMap(data, map, layerControl))
+    .then(data => addAllMarkersToMap(data, hollow, layerControl))
     .catch(error => console.log(error));
 
 
 
-function addAllMarkersToMap(markerData, map, layerControl) {
+function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
     const layerOptions = {interactive: false};
 
     //#region litter
@@ -394,10 +393,15 @@ function addAllMarkersToMap(markerData, map, layerControl) {
     const teleportsLayer = L.layerGroup(teleports, layerOptions);
     //#endregion
 
-    var layers = {
-        label: 'Markers',
-        selectAllCheckbox: true,
-        children: [
+    var layers = [
+        {
+            label: 'Inside/Underneath',
+            layer: hollowLayer,
+        },
+        {
+            label: 'Markers',
+            selectAllCheckbox: true,
+            children: [
             {
                 label: 'Litter',
                 selectAllCheckbox: true,
@@ -614,8 +618,9 @@ function addAllMarkersToMap(markerData, map, layerControl) {
                 label: 'Ship Teleports',
                 layer: teleportsLayer,
             },
-        ],
-    };
+            ],
+        },
+    ];
 
     layerControl.setOverlayTree(layers);
     layerControl.collapseTree(true);

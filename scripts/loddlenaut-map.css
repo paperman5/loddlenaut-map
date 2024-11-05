@@ -6,5 +6,11 @@
 }
 
 .leaflet-control-layers-expanded {
-    width: 14em;
+    width: 15em;
+}
+
+/* Make the layer tree children align better */
+.leaflet-layerstree-nevershow:not(.leaflet-layerstree-header) {
+    display: inline;
+    visibility: hidden;
 }
