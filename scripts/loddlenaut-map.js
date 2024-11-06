@@ -18,6 +18,8 @@ let map = L.map('map', {
 	},
 });
 
+let markerIcons = getCustomMarkerIcons();
+
 // Create the tile layers. For HiDPI/Retina displays, use Leaflet's detectRetina option,
 // let the user zoom in 1 more level, and at that extra zoom level scale the tiles to fit.
 let surface = L.tileLayer('map/surface/{z}/{x}/{y}.webp', {
@@ -70,121 +72,121 @@ let layerControl = L.control.layers.tree(baseTree).addTo(map);
 
 fetch('data/marker_locations.json')
     .then(response => response.json())
-    .then(data => addAllMarkersToMap(data, hollow, layerControl))
+    .then(data => addAllMarkersToMap(data, hollow, layerControl, markerIcons))
     .catch(error => console.log(error));
 
 
 
-function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
+function addAllMarkersToMap(markerData, hollowLayer, layerControl, markerIcons) {
     const layerOptions = {interactive: false};
 
     //#region litter
     const sodaCans = [];
     for (const data of markerData['litter']['Metal_SodaCan']) {
-        sodaCans.push(L.marker([data['y'], data['x']]));
+        sodaCans.push(L.marker([data['y'], data['x']], {icon: markerIcons.sodaCan}));
     }
     const sodaCanLayer = L.layerGroup(sodaCans, layerOptions);
 
     const foodCans = [];
     for (const data of markerData['litter']['Metal_FoodCan']) {
-        foodCans.push(L.marker([data['y'], data['x']]));
+        foodCans.push(L.marker([data['y'], data['x']], {icon: markerIcons.foodCan}));
     }
     const foodCanLayer = L.layerGroup(foodCans, layerOptions);
 
     const soupCans = [];
     for (const data of markerData['litter']['Metal_SoupCan']) {
-        soupCans.push(L.marker([data['y'], data['x']]));
+        soupCans.push(L.marker([data['y'], data['x']], {icon: markerIcons.soupCan}));
     }
     const soupCanLayer = L.layerGroup(soupCans, layerOptions);
 
     const metalBolts = [];
     for (const data of markerData['litter']['Metal_MetalBolt']) {
-        metalBolts.push(L.marker([data['y'], data['x']]));
+        metalBolts.push(L.marker([data['y'], data['x']], {icon: markerIcons.metalBolt}));
     }
     const metalBoltLayer = L.layerGroup(metalBolts, layerOptions);
 
     const scrapMetals = [];
     for (const data of markerData['litter']['Metal_ScrapMetal']) {
-        scrapMetals.push(L.marker([data['y'], data['x']]));
+        scrapMetals.push(L.marker([data['y'], data['x']], {icon: markerIcons.scrapMetal}));
     }
     const scrapMetalLayer = L.layerGroup(scrapMetals, layerOptions);
 
     const glassBottles = [];
     for (const data of markerData['litter']['Glass_GlassBottle']) {
-        glassBottles.push(L.marker([data['y'], data['x']]));
+        glassBottles.push(L.marker([data['y'], data['x']], {icon: markerIcons.glassBottle}));
     }
     const glassBottleLayer = L.layerGroup(glassBottles, layerOptions);
 
     const fancyBottles = [];
     for (const data of markerData['litter']['Glass_FancyBottle']) {
-        fancyBottles.push(L.marker([data['y'], data['x']]));
+        fancyBottles.push(L.marker([data['y'], data['x']], {icon: markerIcons.fancyBottle}));
     }
     const fancyBottleLayer = L.layerGroup(fancyBottles, layerOptions);
 
     const glassJars = [];
     for (const data of markerData['litter']['Glass_GlassJar']) {
-        glassJars.push(L.marker([data['y'], data['x']]));
+        glassJars.push(L.marker([data['y'], data['x']], {icon: markerIcons.glassJar}));
     }
     const glassJarLayer = L.layerGroup(glassJars, layerOptions);
 
     const miniJars = [];
     for (const data of markerData['litter']['Glass_MiniJar']) {
-        miniJars.push(L.marker([data['y'], data['x']]));
+        miniJars.push(L.marker([data['y'], data['x']], {icon: markerIcons.glassMiniJar}));
     }
     const miniJarLayer = L.layerGroup(miniJars, layerOptions);
 
     const plasticRings = [];
     for (const data of markerData['litter']['Plastic_SixPackRings']) {
-        plasticRings.push(L.marker([data['y'], data['x']]));
+        plasticRings.push(L.marker([data['y'], data['x']], {icon: markerIcons.plasticRings}));
     }
     const plasticRingLayer = L.layerGroup(plasticRings, layerOptions);
 
     const plasticBottles = [];
     for (const data of markerData['litter']['Plastic_SodaBottle']) {
-        plasticBottles.push(L.marker([data['y'], data['x']]));
+        plasticBottles.push(L.marker([data['y'], data['x']], {icon: markerIcons.plasticBottle}));
     }
     const plasticBottleLayer = L.layerGroup(plasticBottles, layerOptions);
 
     const plasticCups = [];
     for (const data of markerData['litter']['Plastic_DrinkCup']) {
-        plasticCups.push(L.marker([data['y'], data['x']]));
+        plasticCups.push(L.marker([data['y'], data['x']], {icon: markerIcons.plasticCup}));
     }
     const plasticCupLayer = L.layerGroup(plasticCups, layerOptions);
 
     const plasticClamshells = [];
     for (const data of markerData['litter']['Plastic_ClamshellContainer']) {
-        plasticClamshells.push(L.marker([data['y'], data['x']]));
+        plasticClamshells.push(L.marker([data['y'], data['x']], {icon: markerIcons.plasticClamshell}));
     }
     const plasticClamshellLayer = L.layerGroup(plasticClamshells, layerOptions);
 
     const plasticJugs = [];
     for (const data of markerData['litter']['Plastic_UtilityJug']) {
-        plasticJugs.push(L.marker([data['y'], data['x']]));
+        plasticJugs.push(L.marker([data['y'], data['x']], {icon: markerIcons.plasticJug}));
     }
     const plasticJugLayer = L.layerGroup(plasticJugs, layerOptions);
 
     const techBatteries = [];
     for (const data of markerData['litter']['Tech_Battery']) {
-        techBatteries.push(L.marker([data['y'], data['x']]));
+        techBatteries.push(L.marker([data['y'], data['x']], {icon: markerIcons.techBattery}));
     }
     const batteryLayer = L.layerGroup(techBatteries, layerOptions);
 
     const techFuelCells = [];
     // There are no fuel cells on the world map
     // for (const data of markerData['litter']['Tech_FuelCell']) {
-    //     techFuelCells.push(L.marker([data['y'], data['x']]));
+    //     techFuelCells.push(L.marker([data['y'], data['x']], {icon: markerIcons.techFuelCell}));
     // }
     const fuelCellLayer = L.layerGroup(techFuelCells, layerOptions);
 
     const techPhones = [];
     for (const data of markerData['litter']['Tech_Phone']) {
-        techPhones.push(L.marker([data['y'], data['x']]));
+        techPhones.push(L.marker([data['y'], data['x']], {icon: markerIcons.techPhone}));
     }
     const phoneLayer = L.layerGroup(techPhones, layerOptions);
 
     const techLaptops = [];
     for (const data of markerData['litter']['Tech_Laptop']) {
-        techLaptops.push(L.marker([data['y'], data['x']]));
+        techLaptops.push(L.marker([data['y'], data['x']], {icon: markerIcons.techLaptop}));
     }
     const laptopLayer = L.layerGroup(techLaptops, layerOptions);
     //#endregion
@@ -192,31 +194,31 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
     //#region material bits
     const bitsMetal = [];
     for (const data of markerData['materialbits']['MetalBit']) {
-        bitsMetal.push(L.marker([data['y'], data['x']]));
+        bitsMetal.push(L.marker([data['y'], data['x']], {icon: markerIcons.metalBit}));
     }
     const bitsMetalLayer = L.layerGroup(bitsMetal, layerOptions);
 
     const bitsGlass = [];
     for (const data of markerData['materialbits']['GlassBit']) {
-        bitsGlass.push(L.marker([data['y'], data['x']]));
+        bitsGlass.push(L.marker([data['y'], data['x']], {icon: markerIcons.glassBit}));
     }
     const bitsGlassLayer = L.layerGroup(bitsGlass, layerOptions);
 
     const bitsPlastic = [];
     for (const data of markerData['materialbits']['PlasticBit']) {
-        bitsPlastic.push(L.marker([data['y'], data['x']]));
+        bitsPlastic.push(L.marker([data['y'], data['x']], {icon: markerIcons.plasticBit}));
     }
     const bitsPlasticLayer = L.layerGroup(bitsPlastic, layerOptions);
 
     const bitsTech = [];
     for (const data of markerData['materialbits']['TechBit']) {
-        bitsTech.push(L.marker([data['y'], data['x']]));
+        bitsTech.push(L.marker([data['y'], data['x']], {icon: markerIcons.techBit}));
     }
     const bitsTechLayer = L.layerGroup(bitsTech, layerOptions);
 
     const bitsOrganic = [];
     for (const data of markerData['materialbits']['OrganicBit']) {
-        bitsOrganic.push(L.marker([data['y'], data['x']]));
+        bitsOrganic.push(L.marker([data['y'], data['x']], {icon: markerIcons.bioOrganicBit}));
     }
     const bitsOrganicLayer = L.layerGroup(bitsOrganic, layerOptions);
     //#endregion
@@ -224,7 +226,7 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
     //#region trash bags
     const trashBags = [];
     for (const data of markerData['trashbags']) {
-        trashBags.push(L.marker([data['y'], data['x']]));
+        trashBags.push(L.marker([data['y'], data['x']], {icon: markerIcons.trashBag}));
     }
     const trashBagsLayer = L.layerGroup(trashBags, layerOptions);
     //#endregion
@@ -232,31 +234,31 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
     //#region crates
     const redCrates = [];
     for (const data of markerData['crates']['CrateRed']) {
-        redCrates.push(L.marker([data['y'], data['x']]));
+        redCrates.push(L.marker([data['y'], data['x']], {icon: markerIcons.crateRed}));
     }
     const redCratesLayer = L.layerGroup(redCrates, layerOptions);
 
     const greenCrates = [];
     for (const data of markerData['crates']['CrateGreen']) {
-        greenCrates.push(L.marker([data['y'], data['x']]));
+        greenCrates.push(L.marker([data['y'], data['x']], {icon: markerIcons.crateGreen}));
     }
     const greenCratesLayer = L.layerGroup(greenCrates, layerOptions);
 
     const tealCrates = [];
     for (const data of markerData['crates']['CrateTeal']) {
-        tealCrates.push(L.marker([data['y'], data['x']]));
+        tealCrates.push(L.marker([data['y'], data['x']], {icon: markerIcons.crateTeal}));
     }
     const tealCratesLayer = L.layerGroup(tealCrates, layerOptions);
 
     const yellowCrates = [];
     for (const data of markerData['crates']['CrateYellow']) {
-        yellowCrates.push(L.marker([data['y'], data['x']]));
+        yellowCrates.push(L.marker([data['y'], data['x']], {icon: markerIcons.crateYellow}));
     }
     const yellowCratesLayer = L.layerGroup(yellowCrates, layerOptions);
 
     const grayCrates = [];
     for (const data of markerData['crates']['CrateGray']) {
-        grayCrates.push(L.marker([data['y'], data['x']]));
+        grayCrates.push(L.marker([data['y'], data['x']], {icon: markerIcons.crateGray}));
     }
     const grayCratesLayer = L.layerGroup(grayCrates, layerOptions);
     //#endregion
@@ -264,7 +266,20 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
     //#region microplastics
     const microplastics = [];
     for (const data of markerData['microplastics']) {
-        microplastics.push(L.marker([data['y'], data['x']]));
+        const isRetina = window.devicePixelRatio > 1;
+        const imageUrl = isRetina ? markerIcons.microplastics.options.iconRetinaUrl : markerIcons.microplastics.options.iconUrl;
+        const iconSize = markerIcons.microplastics.options.iconSize;
+        const icon = L.divIcon({
+            ...markerIcons.microplastics.options,
+            html: `<div class="number-marker" style="
+                    background-image: url('${imageUrl}');
+                    background-size: ${iconSize[0]}px ${iconSize[1]}px;
+                    width: ${iconSize[0]}px; 
+                    height: ${iconSize[1]}px;
+                    line-height: ${iconSize[1]}px;
+                  ">${data['amount']}</div>`
+        });
+        microplastics.push(L.marker([data['y'], data['x']], {icon: icon}));
     }
     const microplasticsLayer = L.layerGroup(microplastics, layerOptions);
     //#endregion
@@ -272,7 +287,20 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
     //#region goop
     const goop = [];
     for (const data of markerData['goop']) {
-        goop.push(L.marker([data['y'], data['x']]));
+        const isRetina = window.devicePixelRatio > 1;
+        const imageUrl = isRetina ? markerIcons.goop.options.iconRetinaUrl : markerIcons.goop.options.iconUrl;
+        const iconSize = markerIcons.goop.options.iconSize;
+        const icon = L.divIcon({
+            ...markerIcons.goop.options,
+            html: `<div class="number-marker" style="
+                    background-image: url('${imageUrl}');
+                    background-size: ${iconSize[0]}px ${iconSize[1]}px;
+                    width: ${iconSize[0]}px; 
+                    height: ${iconSize[1]}px;
+                    line-height: ${iconSize[1]}px;
+                  ">${data['amount']}</div>`
+        });
+        goop.push(L.marker([data['y'], data['x']], { icon: icon }));
     }
     const goopLayer = L.layerGroup(goop, layerOptions);
     //#endregion
@@ -280,7 +308,20 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
     //#region flat goop
     const flatGoop = [];
     for (const data of markerData['flatgoop']) {
-        flatGoop.push(L.marker([data['y'], data['x']]));
+        const isRetina = window.devicePixelRatio > 1;
+        const imageUrl = isRetina ? markerIcons.flatGoop.options.iconRetinaUrl : markerIcons.flatGoop.options.iconUrl;
+        const iconSize = markerIcons.flatGoop.options.iconSize;
+        const icon = L.divIcon({
+            ...markerIcons.flatGoop.options,
+            html: `<div class="number-marker" style="
+                    background-image: url('${imageUrl}');
+                    background-size: ${iconSize[0]}px ${iconSize[1]}px;
+                    width: ${iconSize[0]}px; 
+                    height: ${iconSize[1]}px;
+                    line-height: ${iconSize[1]}px;
+                  ">${data['amount']}</div>`
+        });
+        flatGoop.push(L.marker([data['y'], data['x']], {icon: icon}));
     }
     const flatGoopLayer = L.layerGroup(flatGoop, layerOptions);
     //#endregion
@@ -288,67 +329,67 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
     //#region plants
     const coralPears = [];
     for (const data of markerData['plants']['CoralPear']) {
-        coralPears.push(L.marker([data['y'], data['x']]));
+        coralPears.push(L.marker([data['y'], data['x']], {icon: markerIcons.bioCoralPear}));
     }
     const coralPearsLayer = L.layerGroup(coralPears, layerOptions);
 
     const tubeyMelons = [];
     for (const data of markerData['plants']['TubeyMelon']) {
-        tubeyMelons.push(L.marker([data['y'], data['x']]));
+        tubeyMelons.push(L.marker([data['y'], data['x']], {icon: markerIcons.bioTubeyMelon}));
     }
     const tubeyMelonsLayer = L.layerGroup(tubeyMelons, layerOptions);
 
     const lilyBananas = [];
     for (const data of markerData['plants']['LilyBanana']) {
-        lilyBananas.push(L.marker([data['y'], data['x']]));
+        lilyBananas.push(L.marker([data['y'], data['x']], {icon: markerIcons.bioLilyBanana}));
     }
     const lilyBananasLayer = L.layerGroup(lilyBananas, layerOptions);
 
     const lotusKiwis = [];
     for (const data of markerData['plants']['LotusKiwi']) {
-        lotusKiwis.push(L.marker([data['y'], data['x']]));
+        lotusKiwis.push(L.marker([data['y'], data['x']], {icon: markerIcons.bioLotusKiwi}));
     }
     const lotusKiwisLayer = L.layerGroup(lotusKiwis, layerOptions);
 
     const kelpHearts = [];
     for (const data of markerData['plants']['KelpHeart']) {
-        kelpHearts.push(L.marker([data['y'], data['x']]));
+        kelpHearts.push(L.marker([data['y'], data['x']], {icon: markerIcons.bioKelpHeart}));
     }
     const kelpHeartsLayer = L.layerGroup(kelpHearts, layerOptions);
 
     const starKelps = [];
     for (const data of markerData['plants']['StarKelp']) {
-        starKelps.push(L.marker([data['y'], data['x']]));
+        starKelps.push(L.marker([data['y'], data['x']], {icon: markerIcons.bioStarKelp}));
     }
     const starKelpsLayer = L.layerGroup(starKelps, layerOptions);
 
     const rainbowKelps = [];
     for (const data of markerData['plants']['RainbowStarKelp']) {
-        rainbowKelps.push(L.marker([data['y'], data['x']]));
+        rainbowKelps.push(L.marker([data['y'], data['x']], {icon: markerIcons.bioRainbowKelp}));
     }
     const rainbowKelpsLayer = L.layerGroup(rainbowKelps, layerOptions);
 
     const pearlBerries = [];
     for (const data of markerData['plants']['PearlBerries']) {
-        pearlBerries.push(L.marker([data['y'], data['x']]));
+        pearlBerries.push(L.marker([data['y'], data['x']], {icon: markerIcons.bioPearlBerries}));
     }
     const pearlBerriesLayer = L.layerGroup(pearlBerries, layerOptions);
 
     const passionFigs = [];
     for (const data of markerData['plants']['PassionFig']) {
-        passionFigs.push(L.marker([data['y'], data['x']]));
+        passionFigs.push(L.marker([data['y'], data['x']], {icon: markerIcons.bioPassionFig}));
     }
     const passionFigsLayer = L.layerGroup(passionFigs, layerOptions);
 
     const crystalCrisps = [];
     for (const data of markerData['plants']['CrystalCrisp']) {
-        crystalCrisps.push(L.marker([data['y'], data['x']]));
+        crystalCrisps.push(L.marker([data['y'], data['x']], {icon: markerIcons.bioCrystalCrisp}));
     }
     const crystalCrispsLayer = L.layerGroup(crystalCrisps, layerOptions);
 
     const energyPlants = [];
     for (const data of markerData['plants']['EnergyPlant']) {
-        energyPlants.push(L.marker([data['y'], data['x']]));
+        energyPlants.push(L.marker([data['y'], data['x']], {icon: markerIcons.bioEnergyPlant}));
     }
     const energyPlantsLayer = L.layerGroup(energyPlants, layerOptions);
     //#endregion
@@ -356,7 +397,7 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
     //#region holo-badges
     const holoBadges = [];
     for (const data of markerData['holobadges']) {
-        holoBadges.push(L.marker([data['y'], data['x']]));
+        holoBadges.push(L.marker([data['y'], data['x']], {icon: markerIcons.holoBadge}));
     }
     const holoBadgesLayer = L.layerGroup(holoBadges, layerOptions);
     //#endregion
@@ -364,7 +405,7 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
     //#region loddles
     const loddles = [];
     for (const data of markerData['loddles']) {
-        loddles.push(L.marker([data['y'], data['x']]));
+        loddles.push(L.marker([data['y'], data['x']], {icon: markerIcons.loddle}));
     }
     const loddlesLayer = L.layerGroup(loddles, layerOptions);
     //#endregion
@@ -372,7 +413,7 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
     //#region nests
     const nests = [];
     for (const data of markerData['nests']) {
-        nests.push(L.marker([data['y'], data['x']]));
+        nests.push(L.marker([data['y'], data['x']], {icon: markerIcons.loddleNest}));
     }
     const nestsLayer = L.layerGroup(nests, layerOptions);
     //#endregion
@@ -380,7 +421,7 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
     //#region seedling plots
     const seedlings = [];
     for (const data of markerData['seedlingplots']) {
-        seedlings.push(L.marker([data['y'], data['x']]));
+        seedlings.push(L.marker([data['y'], data['x']], {icon: markerIcons.seedlingPlot}));
     }
     const seedlingsLayer = L.layerGroup(seedlings, layerOptions);
     //#endregion
@@ -388,7 +429,7 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
     //#region teleports
     const teleports = [];
     for (const data of markerData['teleport']) {
-        teleports.push(L.marker([data['y'], data['x']]));
+        teleports.push(L.marker([data['y'], data['x']], {icon: markerIcons.shipTeleport}));
     }
     const teleportsLayer = L.layerGroup(teleports, layerOptions);
     //#endregion
@@ -625,4 +666,39 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl) {
     layerControl.setOverlayTree(layers);
     layerControl.collapseTree(true);
     
+}
+
+function getCustomMarkerIcons() {
+    const markerNames = ['sodaCan', 'foodCan', 'soupCan', 'metalBolt', 'scrapMetal', 'metalBit', 
+                            'glassBottle', 'glassJar', 'glassMiniJar', 'fancyBottle', 'glassBit',
+                            'plasticBottle', 'plasticClamshell', 'plasticCup', 'plasticJug', 'plasticRings', 'plasticBit',
+                            'techBattery', 'techLaptop', 'techPhone', 'techFuelCell', 'techBit',
+                            'bioCoralPear', 'bioCrystalCrisp', 'bioEnergyPlant', 'bioKelpHeart', 'bioLilyBanana', 'bioLotusKiwi',
+                            'bioPassionFig', 'bioPearlBerries', 'bioStarKelp', 'bioRainbowKelp', 'bioTubeyMelon', 'bioOrganicBit',
+                            'crateGray', 'crateGreen', 'crateRed', 'crateTeal', 'crateYellow', 'trashBag',
+                            'holoBadge', 'loddle', 'loddleNest', 'seedlingPlot', 'shipTeleport'
+                        ];
+    const circleMarkerNames = ['goop', 'flatGoop', 'microplastics'];
+    const shadowCDNPath = 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png';
+    let icons = {};
+    for (const name of markerNames) {
+        icons[name] = new L.Icon({
+            ...L.Icon.Default.prototype.options,
+            iconUrl: `images/marker_${name}.png`,
+            iconRetinaUrl: `images/marker_${name}_2x.png`,
+            shadowUrl: shadowCDNPath,
+        });
+    }
+    for (const name of circleMarkerNames) {
+        icons[name] = new L.divIcon({
+            className: `${name}-marker`,
+            html: `<div class="number-marker"></div>`, // Placeholder empty div
+            iconUrl: `images/marker_${name}.png`,
+            iconRetinaUrl: `images/marker_${name}_2x.png`,
+            iconSize: [21, 21],
+            iconAnchor: [11, 11],
+        });
+    }
+
+    return icons;
 }

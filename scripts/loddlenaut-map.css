@@ -14,3 +14,21 @@
     display: inline;
     visibility: hidden;
 }
+
+.number-marker {
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.goop-marker .number-marker {
+    color: white;
+}
+
+.flatGoop-marker .number-marker {
+    color: white;
+}
+
+.microplastics-marker .number-marker {
+    color: black;
+}
