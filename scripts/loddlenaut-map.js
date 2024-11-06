@@ -72,14 +72,15 @@ let layerControl = L.control.layers.tree(baseTree).addTo(map);
 
 fetch('data/marker_locations.json')
     .then(response => response.json())
-    .then(data => addAllMarkersToMap(data, hollow, layerControl, markerIcons))
+    .then(data => setupMapLayers(data, hollow, layerControl, markerIcons, map))
     .catch(error => console.log(error));
 
 
 
-function addAllMarkersToMap(markerData, hollowLayer, layerControl, markerIcons) {
+function setupMapLayers(markerData, hollowLayer, layerControl, markerIcons, map) {
     const layerOptions = {interactive: false};
 
+    // Set up all the marker groups
     //#region litter
     const sodaCans = [];
     for (const data of markerData['litter']['Metal_SodaCan']) {
@@ -434,6 +435,38 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl, markerIcons) 
     const teleportsLayer = L.layerGroup(teleports, layerOptions);
     //#endregion
 
+    // Set up the drawing layer
+    const editableLayers = new L.FeatureGroup();
+    const commonOptions = {
+        color: '#e50000',
+        opacity: 0.85,
+        weight: 4
+    };
+    var drawingOptions = {
+        position: 'topleft',
+        draw: {
+            polyline: {
+                shapeOptions: commonOptions
+            },
+            polygon: {
+                shapeOptions: commonOptions
+            },
+            circle: {
+                shapeOptions: commonOptions
+            },
+            rectangle: {
+                shapeOptions: commonOptions
+            },
+            circlemarker: false,
+        },
+        edit: {
+            featureGroup: editableLayers, //REQUIRED!!
+            remove: true
+        }
+    };
+    map.addLayer(editableLayers);
+
+    // Add the layer groups to the map
     var layers = [
         {
             label: 'Inside/Underneath',
@@ -661,11 +694,21 @@ function addAllMarkersToMap(markerData, hollowLayer, layerControl, markerIcons) 
             },
             ],
         },
+        {
+            label: 'Drawing Layer',
+            layer: editableLayers,
+        }
     ];
 
     layerControl.setOverlayTree(layers);
     layerControl.collapseTree(true);
     
+    const drawControl = new L.Control.Draw(drawingOptions);
+    map.addControl(drawControl);
+    map.on(L.Draw.Event.CREATED, function (e) {
+        editableLayers.addLayer(e.layer);
+    });
+
 }
 
 function getCustomMarkerIcons() {
